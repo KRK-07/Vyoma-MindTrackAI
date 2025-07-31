@@ -61,7 +61,7 @@ MindTrackAI is a desktop application that helps track and visualize your mood in
 
 ## 👨💻 Authors
 
-Created by Sannihith Madasu, KR Keshav, Srikanth PMS and Rakesh Kumar as Team xEN Coders for Vyoma Hackathon, 2025.
+Created by [Sannihith Madasu](https://github.com/sannihith-madasu), [KR Keshav](https://github.com/KRK-07/), [Srikanth PMS](https://github.com/PMS-Srikanth/) and [Rakesh Kumar](https://github.com/RAVBLACK/) as Team xEN Coders for Vyoma Hackathon, 2025.
 
 ## 📣 Acknowledgments
 
