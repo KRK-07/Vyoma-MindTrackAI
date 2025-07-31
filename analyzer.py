@@ -8,8 +8,8 @@ nltk.download('vader_lexicon')
 analyzer = SentimentIntensityAnalyzer()
 KEYSTROKE_FILE = "keystrokes.txt"
 
-THRESHOLD = -0.1  # Updated threshold here as per your requirement
-ALERT_LIMIT = 5    # Updated alert limit
+THRESHOLD = -0.5  
+ALERT_LIMIT = 5   
 
 ALERT_STATUS_FILE = "alert_status.json"
 
