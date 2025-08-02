@@ -8,6 +8,7 @@ import threading
 import sys, os, urllib, io
 from mailer import send_alert_email
 from PIL import Image, ImageTk
+from voice_recorder import voice_recorder
 
 def check_and_alert():
     try:
@@ -60,6 +61,9 @@ def launch_gui(user_info):
 
     def on_close():
         print("Exiting MindTrackAI...")
+        # Stop voice recording if active
+        if voice_recorder.is_recording:
+            voice_recorder.stop_recording()
         if os.path.exists("keystrokes.txt"):
             with open("keystrokes.txt", "w") as f: f.write("")
         # Reset alert status to 0 when app closes
@@ -287,6 +291,32 @@ def launch_gui(user_info):
     btn_analysis = create_sidebar_btn("Analysis", "\U0001F4C9")
     btn_analysis.config(command=show_analysis)
     btn_analysis.pack(fill="x", pady=5)
+
+    # Voice Recording Button
+    voice_btn_text = tk.StringVar(value="🎤 Start Voice")
+    voice_btn_color = tk.StringVar(value="#28a745")  # Green
+    
+    def toggle_voice_recording():
+        if voice_recorder.is_recording:
+            # Stop recording
+            voice_recorder.stop_recording()
+            voice_btn_text.set("🎤 Start Voice")
+            voice_btn_color.set("#28a745")  # Green
+            btn_voice.config(bg="#28a745", activebackground="#218838")
+        else:
+            # Start recording
+            voice_recorder.start_recording()
+            voice_btn_text.set("⏹️ Stop Voice")
+            voice_btn_color.set("#dc3545")  # Red
+            btn_voice.config(bg="#dc3545", activebackground="#c82333")
+    
+    btn_voice = tk.Button(
+        sidebar, textvariable=voice_btn_text, bg="#28a745", fg="white",
+        relief="flat", font=("Segoe UI", 10, "bold"), 
+        activebackground="#218838", activeforeground="white",
+        command=toggle_voice_recording, padx=10, pady=8
+    )
+    btn_voice.pack(fill="x", pady=5)
 
     # btn_guardian = create_sidebar_btn("Guardian", "\U0001F9D1\u200D\U0001F4BB")
     # btn_guardian.config(command=show_guardian)
