@@ -15,7 +15,7 @@ MindTrackAI is a desktop application that helps track and visualize your mood in
 
 1. **Clone This Repository**
    ```bash
-   git clone https://github.com/yourusername/MindTrackAI.git
+   git clone https://github.com/KRK-07/MindTrackAI.git
    cd MindTrackAI
    ```
 
