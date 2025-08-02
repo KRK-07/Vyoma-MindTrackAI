@@ -6,6 +6,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.animation import FuncAnimation
 import threading
 import sys, os, urllib, io
+import datetime
 from mailer import send_alert_email
 from PIL import Image, ImageTk
 from voice_recorder import voice_recorder
@@ -44,7 +45,12 @@ def check_and_add_guardian_alert(alert_limit=10):
         logs = []
         if os.path.exists(ALERTS_LOG_FILE):
             with open(ALERTS_LOG_FILE, "r") as f:
-                logs = json.load(f)
+                loaded_data = json.load(f)
+                # Ensure logs is always a list
+                if isinstance(loaded_data, list):
+                    logs = loaded_data
+                else:
+                    logs = []  # Reset to empty list if file contains invalid format
         logs.insert(0, alert_record)
         with open(ALERTS_LOG_FILE, "w") as f:
             json.dump(logs, f, indent=2)
@@ -64,8 +70,16 @@ def launch_gui(user_info):
         # Stop voice recording if active
         if voice_recorder.is_recording:
             voice_recorder.stop_recording()
-        if os.path.exists("keystrokes.txt"):
-            with open("keystrokes.txt", "w") as f: f.write("")
+        
+        # Clear keystrokes for user privacy
+        try:
+            if os.path.exists("keystrokes.txt"):
+                with open("keystrokes.txt", "w") as f: 
+                    f.write("")
+                print("🔒 Keystrokes cleared for privacy")
+        except Exception as e:
+            print(f"Warning: Could not clear keystrokes file: {e}")
+        
         # Reset alert status to 0 when app closes
         reset_alert_status()
         root.destroy()
