@@ -20,6 +20,7 @@ def check_and_alert():
         count, latest_line = count_below_threshold()
         if count > ALERT_LIMIT:
             send_alert_email(guardian_email, count)
+            # Set alert status to latest line to avoid re-checking same lines
             set_alert_status(latest_line)
             messagebox.showinfo(
                 "Guardian Alert Sent",
@@ -46,6 +47,7 @@ def check_and_add_guardian_alert(alert_limit=10):
         logs.insert(0, alert_record)
         with open(ALERTS_LOG_FILE, "w") as f:
             json.dump(logs, f, indent=2)
+        # Set alert status to latest line to avoid re-checking same lines
         set_alert_status(latest_line)
         
 
@@ -60,6 +62,8 @@ def launch_gui(user_info):
         print("Exiting MindTrackAI...")
         if os.path.exists("keystrokes.txt"):
             with open("keystrokes.txt", "w") as f: f.write("")
+        # Reset alert status to 0 when app closes
+        reset_alert_status()
         root.destroy()
         sys.exit()
 
@@ -337,6 +341,13 @@ class SettingsWindow(tk.Toplevel):
         self.tabs = {}
         self.panels = {}
 
+        # Configure the tab_frame to center the buttons
+        tab_frame.grid_columnconfigure(0, weight=1)
+        tab_frame.grid_columnconfigure(1, weight=0)
+        tab_frame.grid_columnconfigure(2, weight=0)
+        tab_frame.grid_columnconfigure(3, weight=0)
+        tab_frame.grid_columnconfigure(4, weight=1)
+
         for i, tab_name in enumerate(("Preferences", "Account", "About")):
             btn = tk.Button(
                 tab_frame, text=tab_name,
@@ -347,7 +358,7 @@ class SettingsWindow(tk.Toplevel):
                 relief="flat",
                 command=lambda n=tab_name: self.show_panel(n)
             )
-            btn.grid(row=0, column=i, padx=(0 if i == 0 else 8, 0))
+            btn.grid(row=0, column=i+1, padx=(0 if i == 0 else 8, 0))
             self.tabs[tab_name] = btn
 
         container = tk.Frame(self, bg="#23272A")
