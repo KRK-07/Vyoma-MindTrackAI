@@ -7,6 +7,7 @@ from matplotlib.animation import FuncAnimation
 import threading
 import sys, os, urllib, io
 import datetime
+import json
 from mailer import send_alert_email
 from PIL import Image, ImageTk
 from voice_recorder import voice_recorder
@@ -57,8 +58,35 @@ def check_and_add_guardian_alert(alert_limit=10):
         # Set alert status to latest line to avoid re-checking same lines
         set_alert_status(latest_line)
         
+def initialize_user_settings(user_info):
+    """Initialize or update user settings with Google auth info"""
+    try:
+        # Extract email from user_info (Google auth response)
+        user_email = user_info.get("email", "")
+        if not user_email:
+            print("Warning: No email found in user info")
+            return
+        
+        # Create user settings with Google user's email as guardian email
+        settings = {
+            "name": user_info.get("name", "User"),
+            "google_id": user_info.get("id", ""),
+            "guardian_email": user_email  # Use the logged-in user's email as guardian email
+        }
+        
+        # Save to user_settings.json
+        with open("user_settings.json", "w") as f:
+            json.dump(settings, f, indent=4)
+        
+        print(f"✅ User settings updated - Guardian email set to: {user_email}")
+        
+    except Exception as e:
+        print(f"Error updating user settings: {e}")
 
 def launch_gui(user_info):
+    # Initialize user settings with Google auth info
+    initialize_user_settings(user_info)
+    
     check_and_add_guardian_alert()
     root = tk.Tk()
     root.title("MindTrackAI")

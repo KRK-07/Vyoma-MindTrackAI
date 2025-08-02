@@ -4,7 +4,7 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 
 
 CLIENT_SECRETS_FILE = "client_secret.json"
-SCOPES = ["openid", "https://www.googleapis.com/auth/userinfo.profile"]
+SCOPES = ["openid", "https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/userinfo.email"]
 
 
 def login_with_google():

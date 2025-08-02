@@ -2,8 +2,8 @@ import smtplib
 from email.mime.text import MIMEText
 
 def send_alert_email(to_addr, count):
-    from_addr = "gameison2006@gmail.com"
-    app_password = "xrqf jwis bcfn okdz"  
+    from_addr = "mindtrackai01@gmail.com"
+    app_password = "fjrn naop hkmc mmda"  
 
     message_body = (
         f"Dear Guardian,\n\n"
