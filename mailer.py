@@ -3,7 +3,7 @@ from email.mime.text import MIMEText
 
 def send_alert_email(to_addr, count):
     from_addr = "gameison2006@gmail.com"
-    app_password = "xrqf jwis bcfn okdz"  # Your actual app password here
+    app_password = "xrqf jwis bcfn okdz"  
 
     message_body = (
         f"Dear Guardian,\n\n"

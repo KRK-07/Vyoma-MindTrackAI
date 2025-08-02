@@ -66,11 +66,9 @@ def count_below_threshold(return_lines=False):
     start = status.get("last_alert_line", 0)
     for i, line in enumerate(lines[start:], start):
         line = line.strip()
-        print("LINE VAR: ", line)
         if not line:
             continue
         score = analyzer.polarity_scores(line)['compound']
-        print(score, flush=True)
         if score < THRESHOLD:
             count += 1
             neg_lines.append(line)
